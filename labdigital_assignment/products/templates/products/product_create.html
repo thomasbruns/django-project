@@ -1,0 +1,13 @@
+<!-- products/product_create.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Create Product</h1>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+  </form>
+{% endblock %}

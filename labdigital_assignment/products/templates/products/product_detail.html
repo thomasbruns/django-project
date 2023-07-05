@@ -1,0 +1,20 @@
+<!-- products/product_detail.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Product Detail</h1>
+
+  <p><strong>Title:</strong> {{ product.title }}</p>
+  <p><strong>Description:</strong> {{ product.description }}</p>
+  <p><strong>Price:</strong> {{ product.price }}</p>
+  <p><strong>Created At:</strong> {{ product.created_at }}</p>
+  <p><strong>Modified At:</strong> {{ product.modified_at }}</p>
+  <img src="{{ product.image.url }}" alt="Product Image">
+
+  <p>
+    <a href="{% url 'products:product_update' product.id %}">Edit</a> |
+    <a href="{% url 'products:product_delete' product.id %}">Delete</a> |
+    <a href="{% url 'products:product_list' %}">Back to products list</a>
+  </p>
+{% endblock %}

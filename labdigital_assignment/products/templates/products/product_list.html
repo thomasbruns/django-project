@@ -1,0 +1,70 @@
+<!-- products/product_list.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Product List</h1>
+
+  <div class="export-btn">
+    <a href="{% url 'products:export_products' %}?format=csv" class="btn btn-primary">Export as CSV</a>
+    <a href="{% url 'products:export_products' %}?format=excel" class="btn btn-primary">Export as Excel</a>
+    <a href="{% url 'products:product_create' %}" class="btn btn-primary">Add new product</a>
+  </div>
+
+  <form method="GET" class="search-form">
+    <input type="text" name="search" placeholder="Search by title" value="{{ search_query }}">
+    <button type="submit">Search</button>
+    {% if search_query %}
+      <a href="{% url 'products:product_list' %}" class="btn btn-secondary">Clear</a>
+    {% endif %}
+  </form>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th><a href="?sort=id{% if current_sort == 'id' %}&current_sort={{ current_sort }}{% endif %}">ID</a></th>
+        <th><a href="?sort=title{% if current_sort == 'title' %}&current_sort={{ current_sort }}{% endif %}">Title</a></th>
+        <th><a href="?sort=description{% if current_sort == 'description' %}&current_sort={{ current_sort }}{% endif %}">Description</a></th>
+        <th><a href="?sort=price{% if current_sort == 'price' %}&current_sort={{ current_sort }}{% endif %}">Price</a></th>
+        <th><a href="?sort=created_at{% if current_sort == 'created_at' %}&current_sort={{ current_sort }}{% endif %}">Created At</a></th>
+        <th><a href="?sort=modified_at{% if current_sort == 'modified_at' %}&current_sort={{ current_sort }}{% endif %}">Modified At</a></th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for product in products %}
+        <tr>
+          <td>{{ product.id }}</td>
+          <td>{{ product.title }}</td>
+          <td>{{ product.description }}</td>
+          <td>{{ product.price }}</td>
+          <td>{{ product.created_at }}</td>
+          <td>{{ product.modified_at }}</td>
+          <td>
+            <a href="{% url 'products:product_detail' product.id %}" class="btn btn-info btn-sm">View</a>
+            <a href="{% url 'products:product_update' product.id %}" class="btn btn-primary btn-sm">Edit</a>
+            <a href="{% url 'products:product_delete' product.id %}" class="btn btn-danger btn-sm">Delete</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="7">No products found.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    {% if products.has_previous %}
+      <a href="?page=1{% if sort_by %}&sort={{ sort_by }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}" class="btn btn-primary">First</a>
+      <a href="?page={{ products.previous_page_number }}{% if sort_by %}&sort={{ sort_by }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}" class="btn btn-primary">Previous</a>
+    {% endif %}
+    <span class="current-page">{{ products.number }}</span>
+    /
+    <span class="total-pages">{{ products.paginator.num_pages }}</span>
+    {% if products.has_next %}
+      <a href="?page={{ products.next_page_number }}{% if sort_by %}&sort={{ sort_by }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}" class="btn btn-primary">Next</a>
+      <a href="?page={{ products.paginator.num_pages }}{% if sort_by %}&sort={{ sort_by }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}" class="btn btn-primary">Last</a>
+    {% endif %}
+  </div>
+{% endblock %}
