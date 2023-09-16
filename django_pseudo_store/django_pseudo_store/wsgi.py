@@ -1,5 +1,5 @@
 """
-WSGI config for labdigital_assignment project.
+WSGI config for django_pseudo_store project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'labdigital_assignment.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_pseudo_store.settings')
 
 application = get_wsgi_application()
